@@ -1,0 +1,30 @@
+.users-container {
+    background: #24262b !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 15px !important;
+    min-height: 450px !important;
+}
+
+.add-user {
+    background: #3c3f46 !important;
+    box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.75) !important;
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.raised-button {
+    margin: 10px !important; 
+}
+
+.users-filter {
+    margin-right: 10px !important; 
+}
+
+.users-table-container {
+    background: #3c3f46 !important;
+    box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.75) !important;
+    width: 100% !important;
+    margin-top: 15px;
+}

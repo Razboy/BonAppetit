@@ -1,0 +1,31 @@
+.main-container {
+  background: #202020 !important; 
+  height: 100vh !important; 
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.login-container {
+  background: #27292e !important;
+  display: flex !important;
+  align-items: center !important; 
+  width: 300px !important;
+  padding: 20px !important;
+  flex-direction: column !important;
+  color: #fff !important;
+  box-shadow: 0px 0px 34px -4px rgba(0,0,0,0.75) !important;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.bon-logo {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
