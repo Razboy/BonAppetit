@@ -153,7 +153,7 @@ render() {
                 <li>
                     <div onClick={() => this.handleOpen()}>
                         <span>
-                            {this.props.store.companyInfo.name}
+                            {this.props.store.infoCompany.name}
                         </span>
                         <i className="material-icons">settings</i>
                     </div>

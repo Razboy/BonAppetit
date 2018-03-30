@@ -4,6 +4,7 @@
     flex-direction: column !important;
     padding: 15px !important;
     min-height: 450px !important;
+    width: 770px;
 }
 
 .add-user {
@@ -12,6 +13,7 @@
     width: 100% !important;
     display: flex !important;
     justify-content: space-between !important;
+    margin-bottom: 15px;
 }
 
 .raised-button {
@@ -26,5 +28,24 @@
     background: #3c3f46 !important;
     box-shadow: 0px 0px 10px -4px rgba(0,0,0,0.75) !important;
     width: 100% !important;
-    margin-top: 15px;
+    padding-top: 10px;
+}
+
+.table-item { 
+    color: #58d4c2;
+}
+
+.table-subitem { 
+    color: #fff;
+}
+
+.users-container h4 {
+    display: block;
+    margin: 15px auto 0 auto;
+    font: 14px 'Roboto', sans-serif;
+    color: #fff;
+}
+
+.mode-edit {
+    color: #fff;
 }

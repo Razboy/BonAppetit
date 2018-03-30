@@ -12,6 +12,8 @@ import logger from 'redux-logger';
 
 import './App.css';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
 export const store = createStore(
     Info,
@@ -21,7 +23,7 @@ export const store = createStore(
 class App extends React.Component {
     render() {
         return(
-            <MuiThemeProvider>
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <Provider store={store}>
                     <Router>
                         <Switch>

@@ -32,3 +32,54 @@ export async function infoUser() {
         payload: data.message
     })
 }
+
+export async function addUser(fullName, email, password) {
+    let token = localStorage.getItem('token');
+    let response = await fetch("http://web.bidon-tech.com:65059/user",
+        {
+            method: "POST",
+            headers: {
+                "Authorization": token,
+                "Accept": "application/json",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fullName: fullName,
+                email: email,
+                password: password,
+                active: true
+            })
+        });
+    let data = await response.json();
+    if (data.error) {
+        console.log(data.message.toString())
+    } else {
+        infoUser();
+    }
+}
+
+export async function changeUser(_id, fullName, email, password, active) {
+    let token = localStorage.getItem('token');
+    let response = await fetch("http://web.bidon-tech.com:65059/user",
+        {
+            method: "PUT",
+            headers: {
+                "Authorization": token,
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                _id : _id,
+                fullName: fullName,
+                email: email,
+                password: password,
+                active: active
+            })
+        });
+    let data = await response.json();
+    if (data.error) {
+        console.log(data.message.toString());
+    } else {
+        infoUser();
+    }
+}

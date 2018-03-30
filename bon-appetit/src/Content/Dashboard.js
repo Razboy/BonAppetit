@@ -60,7 +60,7 @@ render() {
             <ListItem
                 className="list-item"
                 key={index}
-                primaryText={this.userName(value.user_id) + " at " + dateFormat(value.date, "dd-mm-yyyy, h:MM:ss")}
+                primaryText={this.userName(value.user_id) + " at " + dateFormat(value.createdAt, "dd-mm-yyyy, h:MM:ss")}
                 rightIcon={<i className="material-icons">inbox</i>}
                 leftAvatar={<Avatar src={`http://web.bidon-tech.com:65059/images/${value.image}`} />}
             />    
