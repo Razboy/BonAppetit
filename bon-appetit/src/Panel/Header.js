@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import {BrowserRouter as Router, Route, Link} from 'react-router-dom';
+import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
-import './Panelstyle.css';
+import { StyleSheet, css } from 'aphrodite';
 
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
-import RaisedButton from 'material-ui/RaisedButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
@@ -15,6 +13,7 @@ import {connect} from 'react-redux';
 import * as Info from '../Actions/Action';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
 class Header extends React.Component {
     constructor() {
@@ -48,7 +47,7 @@ validator() {
 }
 
 handleOpen = () => {
-    let info = this.props.store.companyInfo;
+    let info = this.props.company;
     info.ownerPassword = "";
     this.setState({...info, open: true});
 };
@@ -66,7 +65,7 @@ logout() {
 
 render() {
     return (
-        <div className="header-container">
+        <div className={css(styles.header)}>
             <Dialog
                 title="Settings"
                 actions={[
@@ -94,7 +93,6 @@ render() {
                 <TextField
                     hintText="A few words about your company"
                     floatingLabelText="Company description"
-                    multiLine={true}
                     multiLine={true}
                     rows={2}
                     rowsMax={4}
@@ -145,21 +143,21 @@ render() {
                     onChange={(event, index, value) => this.setState({language: value})}
                     >
                     <MenuItem value='Enaglish' primaryText="English"/>
-                    <MenuItem value='Русский' disabled primaryText="Русский" disabled />
+                    <MenuItem value='Русский' disabled primaryText="Русский"/>
                 </SelectField>
             </Dialog>
 
-            <ul className="header-bar">
-                <li>
-                    <div onClick={() => this.handleOpen()}>
-                        <span>
-                            {this.props.store.infoCompany.name}
+            <ul className={css(styles.headerBar)}>
+                <li className={css(styles.item)}>
+                    <div className={css(styles.itemArea)} onClick={() => this.handleOpen()}>
+                        <span className={css(styles.name)}>
+                            {this.props.company.name}
                         </span>
                         <i className="material-icons">settings</i>
                     </div>
                 </li>
-                <li>
-                    <div onClick={() => this.logout()}>
+                <li className={css(styles.item)}>
+                    <div className={css(styles.itemArea)} onClick={() => this.logout()}>
                         <i className="material-icons">exit_to_app</i>
                     </div>
                 </li>
@@ -170,6 +168,41 @@ render() {
 }
 }
 
-export default connect(store => ({store: store}))(withRouter(Header))
+const styles = StyleSheet.create({
+    header: {
+        background: '#313339',
+        height: 50,
+        width: 800
+    },
+    headerBar: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        listStyle: 'none',
+        margin: 0 
+    },
+    item: {
+        display: 'block',
+        alignItems: 'center'
+    },
+    itemArea: {
+        display: 'flex',
+        alignItems: 'center',
+        height: 20,
+        padding: 15,
+        color: '#98999C',
+        textDecoration: 'none',
+        ':hover': {
+            background: '#3c3f46',
+            color: '#58d4c2',
+            cursor: 'pointer'
+        }
+    },
+    name: {
+        marginRight: 10
+    }
+})
+
+export default connect(store => ({store: store, company: store.infoCompany}))(withRouter(Header))
 
 

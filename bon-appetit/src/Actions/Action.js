@@ -1,9 +1,10 @@
 import {store} from "../App";
 import {actionType} from "../Redusers/Company";
+import {host} from "./Host";
 
 export async function infoCompany() {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/company/current",
+    let response = await fetch(host+"/company/current",
         {
             method: "GET",
             headers: {
@@ -19,7 +20,7 @@ export async function infoCompany() {
 
 export async function changeCompany(company) {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/company",
+    let response = await fetch(host+"/company",
         {
             method: "PUT",
             headers: {

@@ -1,9 +1,10 @@
 import {store} from "../App";
 import {actionType} from "../Redusers/Company";
+import {host} from "./Host";
 
 export async function infoDashboard() {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/dashboard",
+    let response = await fetch(host+"/dashboard",
         {
             method: "GET",
             headers: {
@@ -19,7 +20,7 @@ export async function infoDashboard() {
 
 export async function infoUser() {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/user",
+    let response = await fetch(host+"/user",
         {
             method: "GET",
             headers: {
@@ -35,7 +36,7 @@ export async function infoUser() {
 
 export async function addUser(fullName, email, password) {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/user",
+    let response = await fetch(host+"/user",
         {
             method: "POST",
             headers: {
@@ -60,7 +61,7 @@ export async function addUser(fullName, email, password) {
 
 export async function changeUser(_id, fullName, email, password, active) {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/user",
+    let response = await fetch(host+"/user",
         {
             method: "PUT",
             headers: {

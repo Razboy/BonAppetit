@@ -1,20 +1,20 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import './reports.css';
 import Filter from './Filter';
 
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableRow, TableRowColumn } from 'material-ui/Table';
 import FlatButton from 'material-ui/FlatButton';
 import Snackbar from 'material-ui/Snackbar';
 import Dialog from 'material-ui/Dialog';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 
-import {NavLink, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
 import * as Info from '../Actions/Report';
 import * as InfoUser from '../Actions/User';
 import * as Company from '../Actions/Action';
+import {host} from '../Actions/Host';
 import dateFormat from 'dateformat';
 
 const defaultState = {
@@ -31,10 +31,11 @@ class Reports extends React.Component {
         open: false
     }
 
-componentDidMount() {
-    Info.infoReport();
+async componentDidMount() {
+    await Info.infoReport();
     InfoUser.infoUser();
     Company.infoCompany();
+
 }
 
 userName(user_id) {
@@ -71,7 +72,8 @@ handleClose = () => {
 
   render() {
     let text = this.state.rows.length + " reports where selected for the amount of " + this.state.rows.length * this.props.company.orderValue
-    let reports = this.props.store.infoReport.map((value, index) => {
+    let filter = this.props.filter.length === 0 ? this.props.report: this.props.filter
+    let reports = filter.map((value, index) => {
         return (
             <TableRow 
                 key={index}
@@ -87,7 +89,6 @@ handleClose = () => {
     })
     return (
         <div className="reports-main-container">
-            
                 <Table 
                     multiSelectable={true} 
                     className="reports-table-container"
@@ -106,7 +107,6 @@ handleClose = () => {
                         {reports}
                     </TableBody>
                 </Table>
-
                 <Snackbar
                     open={this.state.rows.length > 0}
                     message={text}
@@ -132,7 +132,7 @@ handleClose = () => {
                         />
                     ]}>
                     <div className="report-dialog">
-                        <img src={`http://web.bidon-tech.com:65059/images/${this.state.image}`}/>
+                        <img alt='logo' src={host+`/images/${this.state.image}`}/>
                         <List>
                             <Subheader inset={true}>Infomartion</Subheader>
                             <ListItem
@@ -164,6 +164,4 @@ handleClose = () => {
   }
 }
 
-// date approved user_id
-
-export default connect(store => ({store: store, report: store.infoReport, company: store.infoCompany}))(withRouter(Reports))
+export default connect(store => ({store: store, report: store.infoReport, company: store.infoCompany, filter: store.filter}))(withRouter(Reports))

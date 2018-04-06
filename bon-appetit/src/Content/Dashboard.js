@@ -41,11 +41,11 @@ userName(user_id) {
 }
 
 render() {
-    let totalSpace = this.props.store.companyInfo.totalSpace !== undefined ?
-        this.props.store.companyInfo.totalSpace : 0 ;
+    let totalSpace = this.props.store.infoCompany.totalSpace !== undefined ?
+        this.props.store.infoCompany.totalSpace : 0 ;
 
-    let useSpace = this.props.store.companyInfo.useSpace !== undefined ?
-        this.props.store.companyInfo.useSpace : 0 ;
+    let useSpace = this.props.store.infoCompany.useSpace !== undefined ?
+        this.props.store.infoCompany.useSpace : 0 ;
     
     let percent = useSpace*100/totalSpace !== undefined ?
         useSpace*100/totalSpace : 0;

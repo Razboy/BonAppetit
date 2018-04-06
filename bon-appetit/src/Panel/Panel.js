@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import {BrowserRouter as Router, Route, Switch, Redirect, NavLink, withRouter} from 'react-router-dom';
+import { StyleSheet, css } from 'aphrodite';
+
 import Header from './Header';
 import Sidebar from './Sidebar';
 
@@ -9,15 +11,15 @@ import Dashboard from '../Content/Dashboard';
 import Reports from '../Content/Reports';
 import Users from '../Content/Users';
 
-class Panel extends React.Component {
+class Panel extends Component {
     constructor(props) {
         super();
     }
 
 render() {
     return ( 
-        <div className="panel-container">
-            <div className="panel-subcontainer">
+        <div className={css(styles.container)}>
+            <div className={css(styles.panel)}>
                 <Sidebar />
                     <div>
                         <Header/>
@@ -33,5 +35,17 @@ render() {
     )
 }
 }
+
+const styles = StyleSheet.create ({
+    container: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    panel: {
+        display: 'flex',
+        margin: '50px auto'
+    }
+})
 
 export default Panel;

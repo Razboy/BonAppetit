@@ -1,9 +1,8 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './users.css';
 
-import {NavLink, withRouter} from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {connect} from "react-redux";
 import * as Info from '../Actions/User';
 
@@ -13,8 +12,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 import IconButton from 'material-ui/IconButton';
 import TextField from 'material-ui/TextField';
-import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
-import index from 'material-ui/RaisedButton';
+import { Table, TableBody, TableHeader, TableRow, TableRowColumn } from 'material-ui/Table';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 

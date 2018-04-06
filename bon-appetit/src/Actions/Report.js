@@ -1,9 +1,10 @@
 import {store} from "../App";
 import {actionType} from "../Redusers/Company";
+import {host} from "./Host";
 
 export async function infoReport() {
     let token = localStorage.getItem('token');
-    let response = await fetch("http://web.bidon-tech.com:65059/reports",
+    let response = await fetch(host+"/reports",
         {
             method: "GET",
             headers: {
@@ -15,4 +16,5 @@ export async function infoReport() {
         type: actionType.REPORTS_INFO,
         payload: data.message
     })
+    return data;
 }

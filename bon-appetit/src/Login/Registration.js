@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
@@ -26,7 +25,8 @@ class Registration extends React.Component {
 
 validator() {
     let company = Object.assign({}, this.state);
-    let emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
     try {
         if (company.name.length <= 3) throw new Error('Company name must be at least 3 characters');
         if (company.description.length < 16) throw new Error('Company description must be at least 16 characters');
@@ -59,7 +59,7 @@ validator() {
                     
                 } else {
                     toast.success("Success");
-                    // this.props.history.push('/')
+                    this.props.history.push('/')
                 }
             });
     }
