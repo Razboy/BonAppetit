@@ -10,6 +10,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 import * as filter from '../Actions/ActionFilter';
 
+import XlsExport from 'xlsexport';
+
 class Filter extends React.Component {
     state = {
         id: 'all',
@@ -38,6 +40,49 @@ clear() {
 }
 
 handleChange = (event, index, value) => this.setState({id:value});
+
+userName(user_id) {
+    let user = this.props.users.find(value => {
+        return value._id === user_id
+    });
+    if (user === undefined) {
+        return null;
+    } else {
+        return user.fullName;
+    }
+}
+
+userEmail(user_id) {
+    let user = this.props.users.find(value => {
+        return value._id === user_id
+    });
+    if (user === undefined) {
+        return null;
+    } else {
+        return user.email;
+    }
+}
+
+saveAs(typeFormat) {
+    let allList = this.props.filter === undefined ? this.props.report : this.props.filter;
+    let reports = [["Name", "Email", "ID", "Approved"]];
+
+    for (let i = 0; i < allList.length; i++) {
+        let name = allList.map(value => this.userName(value.user_id));
+        let email = allList.map(value => this.userEmail(value.user_id));
+        let reportId = allList.map(value => value._id);
+        let reportApproved = allList.map(value => value.approved);
+        reports.push([name[i], email[i], reportId[i], reportApproved[i]])
+    }
+    let xls = new XlsExport(reports, "Reports");
+
+    if (typeFormat === "xls") {
+        xls.exportToXLS('reports.xls');
+    } else if (typeFormat === "csv") {
+        xls.exportToCSV('reports.csv');
+    }
+
+}
 
 render() {
     let filter = this.props.users.map((value, index) => {
@@ -87,6 +132,22 @@ render() {
                     label="CLEAR"
                     fullWidth
                     onClick={() => this.clear()}
+                />
+            </div>
+            <div className="filters">
+                <FlatButton 
+                    label="EXPORT TO XLS" 
+                    fullWidth
+                    primary={true}
+                    icon={<i className="material-icons">file_download</i>}
+                    onClick={() => this.saveAs("xls")}
+                />
+                <FlatButton 
+                    label="EXPORT TO CSV" 
+                    fullWidth
+                    primary={true}
+                    icon={<i className="material-icons">file_download</i>} 
+                    onClick={() => this.saveAs("csv")}
                 />
             </div>
         </div>
