@@ -4,7 +4,7 @@ import './users.css';
 
 import { withRouter } from 'react-router-dom';
 import {connect} from "react-redux";
-import * as Info from '../Actions/User';
+import * as Info from '../../Actions/User';
 
 import Toggle from 'material-ui/Toggle';
 import Dialog from 'material-ui/Dialog';
@@ -53,14 +53,24 @@ validator() {
       if(this.state.password.length < 6) throw new Error('Password must be at least 6 characters');
     }
     if(this.state.password !== this.state.confirmPassword) throw new Error('Passwords is invalid')
-        
-        this.state.edit ?    
-        Info.changeUser(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active) :
-        Info.addUser(this.state.fullName, this.state.email, this.state.password);
-            this.setState({open: false});
-            this.setState(defaultState);
-    }
-    catch (e) {
+    
+    this.state.edit ?
+    Info.changeUser(this.state._id, this.state.fullName, this.state.email, this.state.password, this.state.active)
+        .then(()=>this.setState(defaultState))
+        .then(()=>toast.success('User has been changes')):
+    Info.addUser(this.state.fullName, this.state.email, this.state.password)
+        .then((response) => response.json())
+        .then((res) => {
+            if (res.error) {
+                toast.error(res.message);
+            } else {
+                toast.success('User has been creating');
+                Info.infoUser();
+                this.setState(defaultState);
+            }
+        });
+}   catch (e) {
+        console.log("error");
         toast.error(e.message);
     }
 }

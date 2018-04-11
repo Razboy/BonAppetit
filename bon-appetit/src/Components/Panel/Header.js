@@ -10,7 +10,7 @@ import TextField from 'material-ui/TextField';
 
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
-import * as Info from '../Actions/Action';
+import * as Info from '../../Actions/Action';
 
 const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -34,11 +34,12 @@ validator() {
         if (this.state.name.length <= 3) throw new Error('Company name must be at least 3 characters');
         if (this.state.description.length < 16) throw new Error('Company description must be at least 16 characters');
         if (!emailRegex.test(this.state.ownerEmail)) throw new Error('Email is invalid');
-        if (this.state.ownerPassword.length < 6) throw new Error('Password must be at least 6 characters');
+        if (this.state.ownerPassword.length >=1 && this.state.ownerPassword.length < 6) throw new Error('Password must be at least 6 characters');        
         if (isNaN(this.state.orderValue)) throw new Error('Report value is invalid. Must be a number');
 
         let company = {...this.state};
         Info.changeCompany(company);
+        toast.success("Company data has been changed");
         this.setState({open: false});
     }
     catch (e) {
@@ -93,6 +94,7 @@ render() {
                 <TextField
                     hintText="A few words about your company"
                     floatingLabelText="Company description"
+                    fullWidth
                     multiLine={true}
                     rows={2}
                     rowsMax={4}

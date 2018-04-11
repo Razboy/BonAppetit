@@ -9,12 +9,14 @@ import Dialog from 'material-ui/Dialog';
 import {List, ListItem} from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 
+import { ToastContainer, toast } from 'react-toastify';
+
 import {withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import * as Info from '../Actions/Report';
-import * as InfoUser from '../Actions/User';
-import * as Company from '../Actions/Action';
-import {host} from '../Actions/Host';
+import * as Info from '../../Actions/Report';
+import * as InfoUser from '../../Actions/User';
+import * as Company from '../../Actions/Action';
+import {host} from '../../Actions/Host';
 import dateFormat from 'dateformat';
 
 const defaultState = {
@@ -22,7 +24,8 @@ const defaultState = {
     image: '',
     createdAt: '',
     date: '',
-    rows: []
+    rows: [],
+    approved: ''
 }
 
 class Reports extends React.Component {
@@ -35,7 +38,13 @@ async componentDidMount() {
     await Info.infoReport();
     InfoUser.infoUser();
     Company.infoCompany();
-
+    if (this.props.location.state !== undefined) {
+        let id = this.props.location.state;
+        let report = this.props.report.find(value => {
+            return value._id === id
+        });
+        this.setState({...report, open: true});
+    }
 }
 
 userName(user_id) {
@@ -68,9 +77,18 @@ handleOpen = (id, e = null) => {
 
 handleClose = () => {
     this.setState({open: false});
+    this.props.history.push('/Panel/Reports')
 };
 
-  render() {
+onPaid(_id, category_id, comment, approved) {
+    approved = !approved;
+    Info.editReport(_id, category_id, comment, approved );
+    this.setState({approved: true});
+    Info.infoReport();
+    toast.success("Report is paid");
+}
+
+render() {
     let text = this.state.rows.length + " reports where selected for the amount of " + this.state.rows.length * this.props.company.orderValue
     let filter = this.props.filter.length === 0 ? this.props.report: this.props.filter
     let reports = filter.map((value, index) => {
@@ -80,7 +98,7 @@ handleClose = () => {
                 selected={this.state.rows.indexOf(value._id) > -1}>
                     <TableRowColumn style={{width:"110px"}} className="table-subitem">{dateFormat(value.date, "dd.mm.yyyy h:MM")}</TableRowColumn>
                     <TableRowColumn className="table-subitem">{this.userName(value.user_id)}</TableRowColumn>
-                    <TableRowColumn className="table-subitem">Not paid</TableRowColumn>
+                    <TableRowColumn className="table-subitem">{value.approved ? "Paid" : "Not paid"}</TableRowColumn>
                     <TableRowColumn className="table-subitem">
                         <FlatButton style={{color: '#fff'}} onClick={this.handleOpen.bind(this,value._id)} label="DETAILS"/>
                     </TableRowColumn>                                                            
@@ -111,6 +129,7 @@ handleClose = () => {
                     open={this.state.rows.length > 0}
                     message={text}
                     action="Paid"
+                    onActionClick={() =>this.onPaid(this.state.rows, this.state.category_id, this.state.comment, false)}               
                 />
 
                 <Dialog
@@ -128,7 +147,10 @@ handleClose = () => {
                         />,
                         <FlatButton
                             label="Paid"
-                            disabled={true}
+                            primary={true}
+                            disabled={this.state.approved}
+                            keyboardFocused={true}
+                            onClick={() => this.onPaid(this.state._id, this.state.category_id, this.state.comment, this.state.approved)}  
                         />
                     ]}>
                     <div className="report-dialog">
@@ -152,7 +174,7 @@ handleClose = () => {
                             />
                             <ListItem
                                 leftIcon={<i className="material-icons">check</i>}
-                                primaryText="Paid"
+                                primaryText={this.state.approved ? "Paid" : "Not paid"}
                                 secondaryText="Status of report"
                             />
                         </List>
@@ -164,4 +186,8 @@ handleClose = () => {
   }
 }
 
-export default connect(store => ({store: store, report: store.infoReport, company: store.infoCompany, filter: store.filter}))(withRouter(Reports))
+export default connect(store => ({
+    store: store, 
+    report: store.infoReport, 
+    company: store.infoCompany, 
+    filter: store.list}))(withRouter(Reports))

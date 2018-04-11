@@ -1,10 +1,16 @@
 import React from 'react';
+
 import { ToastContainer, toast } from 'react-toastify';
+
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
+import {host} from '../../Actions/Host';
 import './Registration.css';
+
+const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class Registration extends React.Component {
     constructor() {
@@ -25,15 +31,13 @@ class Registration extends React.Component {
 
 validator() {
     let company = Object.assign({}, this.state);
-    let emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
     try {
         if (company.name.length <= 3) throw new Error('Company name must be at least 3 characters');
         if (company.description.length < 16) throw new Error('Company description must be at least 16 characters');
         if (!emailRegex.test(company.ownerEmail)) throw new Error('Email is invalid');
         if (company.ownerPassword.length < 6) throw new Error('Password must be at least 6 characters');
         if (isNaN(company.orderValue)) throw new Error('Report value is invalid. Must be a number');
-        fetch("http://web.bidon-tech.com:65059/company",
+        fetch(host+"/company",
             {
                 headers: {
                     'Accept': 'application/json',
@@ -73,7 +77,7 @@ render() {
         <div className="reg-main-container">
             <div className="registration-container">
                 <div className="reg-logo-container">
-                    <img className="bon-logo" src={require("../img/bon-logo.png")} alt="Company logo"/>
+                    <img className="bon-logo" src={require("../../img/bon-logo.png")} alt="Company logo"/>
                     <h2>Bon Appetit</h2>
                 </div>
                 <form>

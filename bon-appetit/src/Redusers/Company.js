@@ -3,7 +3,9 @@ export const actionType = {
     DASHBOARD_INFO: "DASHBOARD_INFO",
     USERS_INFO: "USERS_INFO",
     REPORTS_INFO: "REPORTS_INFO",
-    REPORT_FILTER: "REPORT_FILTER"
+    REPORT_FILTER: "REPORT_FILTER",
+    LIST:"LIST",
+    FILTER_USER: "FILTER_USER"
 };
 
 const defaultState = {
@@ -30,7 +32,10 @@ const defaultState = {
     },
     infoUser:[],
     infoReport:[],
-    filter:[]
+    list:[],
+    filter: {
+        user_id: 'all',
+    }
 };
 
 export default function Info(state = defaultState, action) {
@@ -38,6 +43,12 @@ export default function Info(state = defaultState, action) {
         case "COMPANY_INFO":
             return {...state, infoCompany: action.payload};
             break;    
+        case "DEFAULT":
+            return {...state,
+                filter: {
+                    user_id: 'all',
+                }};
+            break;
         case "DASHBOARD_INFO":
             return {...state, infoDashboard: action.payload};
             break;
@@ -50,6 +61,11 @@ export default function Info(state = defaultState, action) {
         case "REPORT_FILTER":
             return {...state, filter: action.payload};
             break;
+        case "LIST":
+            return {...state, list: action.payload};
+            break;
+        case "FILTER_USER":
+            return {...state, filter: {...state.filter, user_id: action.user}};    
         default:
             return state;
     } 

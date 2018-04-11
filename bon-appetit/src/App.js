@@ -1,9 +1,9 @@
 import React from 'react';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import Login from './Login/Login';
-import Registration from './Login/Registration';
-import Dashboard from './Content/Dashboard';
-import Panel from './Panel/Panel';
+import Login from './Components/Login/Login';
+import Registration from './Components/Login/Registration';
+import Dashboard from './Components/Content/Dashboard';
+import Panel from './Components/Panel/Panel';
 
 import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';

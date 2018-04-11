@@ -8,27 +8,30 @@ import DatePicker from 'material-ui/DatePicker';
 import RaisedButton from 'material-ui/RaisedButton';
 import FlatButton from 'material-ui/FlatButton';
 
-import * as filter from '../Actions/ActionFilter';
-
-import XlsExport from 'xlsexport';
+import * as filter from '../../Actions/ActionFilter';
 
 class Filter extends React.Component {
-    state = {
-        id: 'all',
-        dateFrom: null,
-        dateTo: null
-    }
+    constructor(props) {
+        super(props);
+            this.state = {
+                id: 'all',
+                dateFrom: null,
+                dateTo: null
+            }
+    this.searchReports = this.searchReports.bind(this)
+    this.defaultInfo = this.defaultInfo.bind(this)
+}
 
 async componentDidMount() {
     await filter.reportFilter(this.props.report)
 }
 
 searchReports() {
-    if (this.state.id === "all") {
+    if (this.props.reportFilter.user_id === "all") {
         filter.reportFilter(this.props.report);
     } else {
         let rList = this.props.report.filter((val) => {
-            return val.user_id === this.state.id;
+            return val.user_id === this.props.reportFilter.user_id;
         });
         filter.reportFilter(rList);
     }
@@ -63,25 +66,17 @@ userEmail(user_id) {
     }
 }
 
-saveAs(typeFormat) {
-    let allList = this.props.filter === undefined ? this.props.report : this.props.filter;
-    let reports = [["Name", "Email", "ID", "Approved"]];
+defaultInfo(){
+    filter.defaultInfo();
+    filter.reportFilter(this.props.report);
+}
 
-    for (let i = 0; i < allList.length; i++) {
-        let name = allList.map(value => this.userName(value.user_id));
-        let email = allList.map(value => this.userEmail(value.user_id));
-        let reportId = allList.map(value => value._id);
-        let reportApproved = allList.map(value => value.approved);
-        reports.push([name[i], email[i], reportId[i], reportApproved[i]])
-    }
-    let xls = new XlsExport(reports, "Reports");
+selectedUser(event, key, user) {
+    filter.user(user)
+}
 
-    if (typeFormat === "xls") {
-        xls.exportToXLS('reports.xls');
-    } else if (typeFormat === "csv") {
-        xls.exportToCSV('reports.csv');
-    }
-
+async onExport(type){
+    await filter.onExport(type);
 }
 
 render() {
@@ -96,9 +91,9 @@ render() {
             <h2>Filters</h2>
             <SelectField
                 floatingLabelText="User"
-                value={this.state.id}
+                value={this.props.reportFilter.user_id}                
                 fullWidth
-                onChange={this.handleChange}                
+                onChange={this.selectedUser.bind(this)}            
             >
                 <MenuItem value={'all'} primaryText="All users" />
                 {filter}
@@ -140,14 +135,14 @@ render() {
                     fullWidth
                     primary={true}
                     icon={<i className="material-icons">file_download</i>}
-                    onClick={() => this.saveAs("xls")}
+                    onClick={this.onExport.bind(this, 'xls')}
                 />
                 <FlatButton 
                     label="EXPORT TO CSV" 
                     fullWidth
                     primary={true}
                     icon={<i className="material-icons">file_download</i>} 
-                    onClick={() => this.saveAs("csv")}
+                    onClick={this.onExport.bind(this, 'csv')}
                 />
             </div>
         </div>
@@ -156,4 +151,4 @@ render() {
 }     
 }
 
-export default connect(store => ({store: store, report: store.infoReport, users: store.infoUser, filter: store.filter}))(Filter)
+export default connect(store => ({store: store, report: store.infoReport, users: store.infoUser, reportFilter: store.filter}))(Filter)

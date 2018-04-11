@@ -51,12 +51,7 @@ export async function addUser(fullName, email, password) {
                 active: true
             })
         });
-    let data = await response.json();
-    if (data.error) {
-        console.log(data.message.toString())
-    } else {
-        infoUser();
-    }
+    return response
 }
 
 export async function changeUser(_id, fullName, email, password, active) {

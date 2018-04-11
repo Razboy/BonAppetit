@@ -21,15 +21,15 @@ render() {
         <div className={css(styles.container)}>
             <div className={css(styles.panel)}>
                 <Sidebar />
-                    <div>
-                        <Header/>
-                                <Switch>
-                                    <Redirect exact from="/Panel" to="/Panel/Dashboard"/>
-                                    <Route path="/Panel/Dashboard" component={Dashboard}/>
-                                    <Route path="/Panel/Users" component={Users}/>
-                                    <Route path="/Panel/Reports" component={Reports}/>
-                                </Switch>
-                    </div>
+                <div>
+                    <Header/>
+                        <Switch>
+                            <Redirect exact from="/Panel" to="/Panel/Dashboard"/>
+                            <Route path="/Panel/Dashboard" component={Dashboard}/>
+                            <Route path="/Panel/Users" component={Users}/>
+                            <Route path="/Panel/Reports" component={Reports}/>
+                        </Switch>
+                </div>
             </div>
         </div>
     )

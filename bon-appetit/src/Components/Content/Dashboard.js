@@ -10,7 +10,8 @@ import dateFormat from 'dateformat';
 
 import {NavLink, withRouter} from 'react-router-dom';
 import {connect} from "react-redux";
-import * as Info from '../Actions/User';
+import * as Info from '../../Actions/User';
+import {host} from '../../Actions/Host';
 
 const ChartData = [
     {name: '01.01.18', paid: 15, total: 16},
@@ -60,14 +61,17 @@ render() {
                 return(
                     <ListItem
                         className="list-item"
+                        onClick={() => {
+                            this.props.history.push("/Panel/Reports", value._id)
+                        }}
                         key={index}
                         primaryText={this.userName(value.user_id) + " at " + dateFormat(value.createdAt, "dd-mm-yyyy, h:MM:ss")}
                         rightIcon={<i className="material-icons">inbox</i>}
-                        leftAvatar={<Avatar src={`http://web.bidon-tech.com:65059/images/${value.image}`} />}
+                        leftAvatar={<Avatar src={host+`/images/${value.image}`} />}
                     />    
                 )    
             } else return null;
-       }):null;
+        }):null;
 
     return (
         <div className="dashboard-container">
