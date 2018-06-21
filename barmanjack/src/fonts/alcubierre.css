@@ -1,0 +1,18 @@
+@font-face { 
+    font-family: 'Alcubierre'; 
+    src: url('Alcubierre.ttf');                                  
+     
+    font-weight: normal; 
+    font-style: normal; 
+}
+
+.title {
+    font-family: 'Alcubierre';
+    /* vertical-align: 'middle'; */
+    font-size: 37px;
+    margin-top: 5px;
+}
+
+.jack {
+    color: #a000ad;
+}
